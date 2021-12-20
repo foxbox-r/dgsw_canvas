@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/Search.css" />
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <div id="resetButton"></div>
+    <label id="label" for="optionBarCheckInput"></label>
+    <input id="optionBarCheckInput" type="checkbox" />
+    <div id="optionBar">
+      <div>Rows : <input id="rowInput" type="number" /></div>
+      <div>Columns : <input id="columnInput" type="number" /></div>
+      <div>Delay : <input id="delayInput" type="number" /></div>
+      <div>
+        Search :
+        <select id="searchSelect">
+          <option>DFS</option>
+          <option>BFS</option>
+        </select>
+      </div>
+      <div>Show : <input id="debugCheck" type="checkbox" /></div>
+    </div>
+
+    <script src="../js/utils/a.js"></script>
+    <script src="../js/utils/Queue.js"></script>
+    <script src="../js/Search.js"></script>
+  </body>
+</html>

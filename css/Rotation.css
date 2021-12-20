@@ -1,0 +1,22 @@
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{background:blanchedalmond;width:100vw;height:100vh;border:3px solid none;}
+
+canvas{}
+
+
+#option_box{
+    position:fixed;
+    top:0;
+    left:-100%;
+    padding:30px;
+    transition:all .25s;
+    background:rgba(0,0,0,0.8);
+}
+
+#option{display:none;}
+#option+label{font-weight: bold;z-index:2;position:fixed;top:0;left:10;}
+
+#option:checked+label{color:white;}
+#option:checked~#option_box{left:0;color:white;}
+

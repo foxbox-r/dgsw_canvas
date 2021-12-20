@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        width: 100%;
+        height: 100%;
+      }
+
+      body {
+        width: 100%;
+        height: 100%;
+        background-color: white;
+        position: relative;
+      }
+
+      canvas {
+        width: 100%;
+        height: 100%;
+        /* border: 1px solid black; */
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <script>
+      let cv = document.querySelector("#canvas");
+      let ctx = cv.getContext("2d");
+      let baseColor = "#f8f8f8";
+      let arr = [];
+      let max = 150;
+
+      ctx.scale(2, 2);
+
+      function resize() {
+        stageWidth = document.body.clientWidth;
+        stageHeight = document.body.clientHeight;
+
+        cv.width = stageWidth * 2;
+        cv.height = stageHeight * 2;
+      }
+
+      function random(x) {
+        return x * Math.random();
+      }
+
+      function mk_ball() {
+        this.x = random(cv.width) + 100;
+        this.y = random(cv.height) + 100;
+        this.r = random(100);
+        this.sx = random(10);
+        this.sy = random(10);
+        this.color = "#" + Math.floor(random(0xffffff)).toString(16);
+      }
+
+      mk_ball.prototype.update = function () {
+        if (this.x - this.r / 2 <= 0 || this.x + this.r / 2 >= cv.width / 2) {
+          this.sx = this.sx * -1;
+        }
+        if (this.y - this.r / 2 <= 0 || this.y + this.r / 2 >= cv.height / 2) {
+          this.sy = this.sy * -1;
+        }
+        this.x += this.sx;
+        this.y += this.sy;
+      };
+      mk_ball.prototype.clickEvent = function (i, e) {
+        this.x = e.clientX;
+        this.y = e.clientY;
+
+        this.r = random(100);
+        this.sx = i % 2 == 0 ? random(10) : random(10) * -1;
+        this.sy = i % 2 == 0 ? random(10) : random(10) * -1;
+        this.color = "#" + Math.floor(random(0xffffff)).toString(16);
+      };
+
+      function clear(color) {
+        ctx.strokeStyle = "#000";
+        ctx.strokeRect(0, 0, cv.width - 1, cv.height - 1);
+        ctx.fillStyle = color;
+        ctx.fillRect(1, 1, cv.width - 2, cv.height - 2);
+      }
+
+      function init(color) {
+        ctx.strokeStyle = "#000";
+        ctx.strokeRect(0, 0, cv.width - 1, cv.height - 1);
+        clear(color);
+        for (var i = 0; i < max; i++) {
+          arr[i] = new mk_ball();
+        }
+      }
+
+      init(baseColor);
+
+      function draw_ball(ball) {
+        ctx.beginPath();
+        ctx.arc(ball.x * 2, ball.y * 2, ball.r, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.fillStyle = ball.color;
+        ctx.fill();
+        ball.update();
+      }
+
+      function draw() {
+        clear(baseColor);
+        for (var i = 0; i < max; i++) {
+          draw_ball(arr[i]);
+        }
+      }
+
+      function update() {
+        draw();
+      }
+
+      cv.addEventListener("click", function (e) {
+        console.log(e.clientX, e.clientY);
+        for (var i in arr) {
+          arr[i].clickEvent(i, e);
+        }
+      });
+
+      resize();
+      window.addEventListener("resize", () => {
+        resize();
+      });
+
+      setInterval(update, 50);
+    </script>
+  </body>
+</html>

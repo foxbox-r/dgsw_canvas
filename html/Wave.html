@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/Wave.css" />
+  </head>
+  <body>
+    <input type="checkbox" id="checkOption" />
+    <label for="checkOption"><b>option</b></label>
+    <div id="option">
+      <input type="checkbox" id="isStroke" />
+      <label for="isStroke">isStroke</label>
+      <input type="checkbox" id="isFill" />
+      <label for="isFill">isFill</label><br />
+      number of point : <input type="number" id="pointNumber" /><br />
+      r of wave : <input type="number" id="waveR" /><br />
+      term of wave : <input type="number" id="waveTerm" />
+    </div>
+    <script src="../js/Wave.js"></script>
+    <script>
+      const checkStroke = document.querySelector("#isStroke");
+      const checkFill = document.querySelector("#isFill");
+      const inputPointNumber = document.querySelector("#pointNumber");
+      const inputWaveR = document.querySelector("#waveR");
+      const inputWaveTerm = document.querySelector("#waveTerm");
+
+      inputPointNumber.value = pointNumber;
+      inputWaveR.value = waveR;
+      inputWaveTerm.value = waveTerm;
+
+      checkStroke.addEventListener("change", (e) => {
+        isStroke = !isStroke;
+      });
+      checkFill.addEventListener("change", (e) => {
+        isFill = !isFill;
+      });
+      inputPointNumber.addEventListener("change", (e) => {
+        pointNumber = e.target.value;
+        resetWave();
+      });
+      inputWaveR.addEventListener("change", (e) => {
+        waveR = e.target.value;
+        resetWave();
+      });
+      inputWaveTerm.addEventListener("change", (e) => {
+        waveTerm = e.target.value;
+        resetWave();
+      });
+    </script>
+  </body>
+</html>

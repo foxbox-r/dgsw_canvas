@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title></title>
+  </head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      width: 100%;
+      height: 100%;
+    }
+
+    body {
+      width: 100%;
+      height: 100%;
+      background-color: white;
+      position: relative;
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+      /* border: 1px solid black; */
+    }
+  </style>
+  <body>
+    <canvas id="canvas" width="800" height="500"></canvas>
+    <script>
+      let cv = document.querySelector("#canvas");
+      let ctx = cv.getContext("2d");
+      let arr = [];
+      let bg = "#fff";
+      let color = "#000";
+
+      ctx.scale(2, 2);
+
+      function resize() {
+        stageWidth = document.body.clientWidth;
+        stageHeight = document.body.clientHeight;
+
+        cv.width = stageWidth * 2;
+        cv.height = stageHeight * 2;
+      }
+
+      function mk_info(e) {
+        this.x = e.clientX * 2;
+        this.y = e.clientY * 2;
+        this.r = 0;
+        this.v = 0;
+        this.a = 0.002;
+        arr.push(this);
+      }
+      mk_info.prototype.update = function () {
+        if (this.r > 1000) arr.splice(0, 1);
+        else {
+          this.v += this.a;
+          this.r += this.v;
+        }
+      };
+      function clear() {
+        ctx.strokeStyle = "#000";
+        ctx.strokeRect(0, 0, cv.width - 1, cv.height - 1);
+        ctx.fillStyle = bg;
+        ctx.fillRect(1, 1, cv.width - 2, cv.height - 2);
+      }
+
+      function draw_info(info) {
+        ctx.beginPath();
+        ctx.arc(info.x, info.y, info.r, 0, Math.PI * 2);
+        ctx.strokeStyle = color;
+        ctx.stroke();
+        ctx.closePath();
+        info.update();
+      }
+
+      function draw() {
+        clear();
+        for (var i = 0; i < arr.length; i++) {
+          draw_info(arr[i]);
+        }
+      }
+      cv.addEventListener("click", () => {
+        bg = bg == "#000" ? "#fff" : "#000";
+        color = color == "#000" ? "#fff" : "#000";
+      });
+      cv.addEventListener("mousemove", (e) => {
+        new mk_info(e);
+      });
+
+      resize();
+      window.addEventListener("resize", () => {
+        resize();
+      });
+      setInterval(draw, 1);
+    </script>
+  </body>
+</html>
